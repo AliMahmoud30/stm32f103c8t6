@@ -1,0 +1,102 @@
+/*
+ * main.c
+ *
+ *  Created on:
+ *      Author: Ali Morsy
+ */
+
+/*=============================================================================
+ *              Section: Includes
+ =============================================================================*/
+/*! Lib */
+#include "STD_TYPES.h"
+#include "BIT_MATH.h"
+
+/*! Modules  */
+#include "../02-MCAL/01-RCC/RCC_interface.h"
+#include "../02-MCAL/02-GPIO/DIO_interface.h"
+#include "../03-HAL/01-LED/LED_interface.h"
+#include "../03-HAL/02-seven_segment/seven_segment_interface.h"
+
+/*=====================================================================================
+ *              Section: Macro Declarations
+ =====================================================================================*/
+
+/*=====================================================================================
+ *              Section: Macro Function Declarations
+ =====================================================================================*/
+
+/*=====================================================================================
+ *              Section: variables Declarations
+ =====================================================================================*/
+
+seven_segment_t seven_seg_1 =
+{
+		.segment_pins[SEGMENT_PIN0].port = GPIOA,						// segment A
+		.segment_pins[SEGMENT_PIN0].pin = PIN0,
+		.segment_pins[SEGMENT_PIN0].pin_mode = OUTPUT_SPEED_10MHZ_PP,
+		.segment_pins[SEGMENT_PIN0].logic = LOGIC_LOW,
+
+		.segment_pins[SEGMENT_PIN1].port = GPIOB,						// segment B
+		.segment_pins[SEGMENT_PIN1].pin = PIN9,
+		.segment_pins[SEGMENT_PIN1].pin_mode = OUTPUT_SPEED_10MHZ_PP,
+		.segment_pins[SEGMENT_PIN1].logic = LOGIC_LOW,
+
+		.segment_pins[SEGMENT_PIN2].port = GPIOB,						// segment C
+		.segment_pins[SEGMENT_PIN2].pin = PIN10,
+		.segment_pins[SEGMENT_PIN2].pin_mode = OUTPUT_SPEED_10MHZ_PP,
+		.segment_pins[SEGMENT_PIN2].logic = LOGIC_LOW,
+
+		.segment_pins[SEGMENT_PIN3].port = GPIOB,						// segment D
+		.segment_pins[SEGMENT_PIN3].pin = PIN11,
+		.segment_pins[SEGMENT_PIN3].pin_mode = OUTPUT_SPEED_10MHZ_PP,
+		.segment_pins[SEGMENT_PIN3].logic = LOGIC_LOW,
+
+		.segment_pins[SEGMENT_PIN4].port = GPIOB,						// segment E
+		.segment_pins[SEGMENT_PIN4].pin = PIN12,
+		.segment_pins[SEGMENT_PIN4].pin_mode = OUTPUT_SPEED_10MHZ_PP,
+		.segment_pins[SEGMENT_PIN4].logic = LOGIC_LOW,
+
+		.segment_pins[SEGMENT_PIN5].port = GPIOB,						// segment F
+		.segment_pins[SEGMENT_PIN5].pin = PIN13,
+		.segment_pins[SEGMENT_PIN5].pin_mode = OUTPUT_SPEED_10MHZ_PP,
+		.segment_pins[SEGMENT_PIN5].logic = LOGIC_LOW,
+
+		.segment_pins[SEGMENT_PIN6].port = GPIOB,						// segment G
+		.segment_pins[SEGMENT_PIN6].pin = PIN14,
+		.segment_pins[SEGMENT_PIN6].pin_mode = OUTPUT_SPEED_10MHZ_PP,
+		.segment_pins[SEGMENT_PIN6].logic = LOGIC_LOW,
+
+		.segment_type = SEGMENT_COMMON_CATHODE
+};
+
+
+Std_ReturnType  status = OPERATION_SUCCESS;
+int main(void)
+{
+	/*! Initialize the system clock */
+	RCC_voidInitSysClock();
+
+	/* Enable Peripheral 2 on APB2 bus (GPIOA) */
+	RCC_voidEnablePeripheralClock(RCC_APB2, IOPAEN);
+	/* Enable Peripheral 23 on APB2 bus (GPIOA) */
+	RCC_voidEnablePeripheralClock(RCC_APB2, IOPBEN);
+	RCC_voidEnablePeripheralClock(RCC_APB2, IOPCEN);
+
+	seven_segment_initialization(&seven_seg_1);
+//	seven_segment_display(&seven_seg_1, 0x01);
+	uint8_t number = 0x00;
+	while(1)
+	{
+		seven_segment_display(&seven_seg_1, number);
+		number = (number + 1)%10;
+		for(uint16_t i = 0; i< 500; i++)
+		{
+			for(uint16_t j = 0; j< 500; j++)
+			{
+				asm("NOP");
+			}
+		}
+	}
+	return 0;
+}

@@ -1,0 +1,24 @@
+################################################################################
+# Automatically-generated file. Do not edit!
+################################################################################
+
+# Add inputs and outputs from these tool invocations to the build variables 
+C_SRCS += \
+../03-\ HAL/01-\ LED/LED_program.c 
+
+OBJS += \
+./03-\ HAL/01-\ LED/LED_program.o 
+
+C_DEPS += \
+./03-\ HAL/01-\ LED/LED_program.d 
+
+
+# Each subdirectory must supply rules for building sources it contributes
+03-\ HAL/01-\ LED/LED_program.o: ../03-\ HAL/01-\ LED/LED_program.c
+	@echo 'Building file: $<'
+	@echo 'Invoking: GNU Arm Cross C Compiler'
+	arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -Og -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -ffreestanding -fno-move-loop-invariants -Wall -Wextra  -g3 -DDEBUG -DUSE_FULL_ASSERT -DTRACE -DOS_USE_TRACE_SEMIHOSTING_DEBUG -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DHSE_VALUE=8000000 -I"../include" -I"../system/include" -I"../system/include/cmsis" -I"../system/include/stm32f1-stdperiph" -std=gnu11 -MMD -MP -MF"03- HAL/01- LED/LED_program.d" -MT"03-\ HAL/01-\ LED/LED_program.d" -c -o "$@" "$<"
+	@echo 'Finished building: $<'
+	@echo ' '
+
+
